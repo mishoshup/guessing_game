@@ -4,16 +4,7 @@ use std::io;
 
 fn main() {
     println!("Guess the number!");
-
-    let secret_number = generate_secret_number();
-
-    loop {
-        let user_guess = take_user_input();
-        let comparison = compare_input_with_secret_number(secret_number, user_guess);
-        if comparison {
-            break;
-        }
-    }
+    start_game();
 }
 
 fn generate_secret_number() -> u32 {
@@ -57,5 +48,26 @@ fn compare_input_with_secret_number(secret_number: u32, user_guess: u32) -> bool
             println!("You win!\n");
             return true;
         }
+    }
+}
+
+fn start_game() {
+    let secret_number = generate_secret_number();
+    let mut tries = 0;
+    let mut tries_left = 5;
+
+    while tries < 5 {
+        println!("You have {tries_left} tries left");
+        let user_guess = take_user_input();
+        let comparison = compare_input_with_secret_number(secret_number, user_guess);
+        if comparison {
+            break;
+        }
+        tries_left = tries_left - 1;
+        tries += 1;
+    }
+
+    if tries == 5 {
+        println!("Game Over");
     }
 }
